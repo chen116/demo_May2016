@@ -309,6 +309,8 @@ int job(void)
     long k=0;
     int err;
     lt_t endTime;
+    cplx buf[size_iter];
+
     //lt_t beginTime;
     // int bBudgetFlag;
 
@@ -320,8 +322,7 @@ int job(void)
     
     /* Do real-time calculation. */
 
-    cplx buf[size_iter];
-    for(k=0;k<size_iter;++k)
+        for(k=0;k<size_iter;++k)
     {
         if( k < size_iter/2)
             buf[k]=1;
