@@ -151,10 +151,10 @@ def startTasks(execTime,periods,duration,mode,appName,iter_size):
 def find_iter_for_modes():
 	global mode2iter
 	with open("result") as inFile:
-		inLines = inFile.readlines()
-			for lines in inLines:
-				if len(lines.split())==2:
-					mode2iter.append(lines.split()[1])
+	inLines = inFile.readlines()
+		for lines in inLines:
+			if len(lines.split())==2:
+				mode2iter.append(lines.split()[1])
 	print mode2iter
 
 if __name__ == "__main__":
