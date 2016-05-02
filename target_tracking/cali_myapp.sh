@@ -1,7 +1,7 @@
 #/bin/bash
 
 KALMAN_BASE=1000
-BASE=100
+
 
 
 function cali_kalman {
@@ -18,7 +18,7 @@ function cali_kalman {
 
   j=0
   DESIRED_WCET=$1
-  
+  BASE=100
   kalmn_iter=$(($KALMAN_BASE + $BASE))
   while true; do
 
