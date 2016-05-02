@@ -1,0 +1,60 @@
+<component name="system" resource_model="MPR2 model">
+	<resource>
+		<model cpus="5" execution_time="5" period="1"/>
+	</resource>
+	<processed_task>
+		<model deadline="1" execution_time="1" period="1"/>
+		<model deadline="1" execution_time="1" period="1"/>
+		<model deadline="1" execution_time="1" period="1"/>
+		<model deadline="1" execution_time="1" period="1"/>
+		<model deadline="1" execution_time="1" period="1"/>
+	</processed_task>
+	<component name="vm1" resource_model="MPR2 model">
+		<resource>
+			<model cpus="1" execution_time="206" period="400"/>   <!-- util = 0.5   , fft mode 1 -->
+		</resource>
+		<processed_task>
+			<model deadline="400" execution_time="206" period="400"/>
+		</processed_task>
+	</component>
+	<component name="vm2" resource_model="MPR2 model">
+		<resource>
+			<model cpus="1" execution_time="221" period="400"/>  <!-- util = 0.55 , kalman mode 1-->
+		</resource>
+		<processed_task>
+			<model deadline="400" execution_time="221" period="400"/>
+		</processed_task>
+	</component>
+	<component name="vm3" resource_model="MPR2 model">
+		<resource>
+			<model cpus="1" execution_time="238" period="400"/>   <!-- util = 0.6 , fft mode 2-->
+		</resource>
+		<processed_task>
+			<model deadline="400" execution_time="238" period="400"/>
+		</processed_task>
+	</component>
+	<component name="vm4" resource_model="MPR2 model">
+		<resource>
+			<model cpus="1" execution_time="276" period="400"/>  <!-- util = 0.7 , kalman mode 2-->
+		</resource>
+		<processed_task>
+			<model deadline="400" execution_time="276" period="400"/>
+		</processed_task>
+	</component>
+	<component name="vm5" resource_model="MPR2 model">
+		<resource>
+			<model cpus="1" execution_time="301" period="400"/>  <!-- util = 0.75 , fft mode 3-->
+		</resource>
+		<processed_task>
+			<model deadline="400" execution_time="301" period="400"/>
+		</processed_task>
+	</component>
+	<component name="vm6" resource_model="MPR2 model">
+		<resource>
+			<model cpus="1" execution_time="326" period="400"/>   <!-- util = 0.8 , kalman mode 3-->
+		</resource>
+		<processed_task>
+			<model deadline="400" execution_time="326" period="400"/>
+		</processed_task>
+	</component>
+</component>

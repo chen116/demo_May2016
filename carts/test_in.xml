@@ -1,0 +1,20 @@
+<system max_period="1" min_period="1" os_scheduler="EDF">
+	<component max_period="400" min_period="400" name="vm1" scheduler="EDF">
+		<task d="400" e="10" name="t1" p="400"/> <!-- util = 0.5  , fft mode 1 -->
+	</component>
+	<component max_period="400" min_period="400" name="vm2" scheduler="EDF">
+		<task d="400" e="40" name="t2" p="400"/> <!-- util = 0.55 , kalman mode 1-->
+	</component>
+	<component max_period="400" min_period="400" name="vm3" scheduler="EDF">
+		<task d="400" e="75" name="t3" p="400"/> <!-- util = 0.6 , fft mode 2-->
+	</component>
+	<component max_period="400" min_period="400" name="vm4" scheduler="EDF">
+		<task d="400" e="150" name="t4" p="400"/> <!-- util = 0.7 , kalman mode 2-->
+	</component>
+	<component max_period="400" min_period="400" name="vm5" scheduler="EDF">
+		<task d="400" e="200" name="t5" p="400"/> <!-- util = 0.75 , fft mode 3-->
+	</component>
+	<component max_period="400" min_period="400" name="vm6" scheduler="EDF">
+		<task d="400" e="250" name="t6" p="400"/> <!-- util = 0.8 , kalman mode 3-->
+	</component>
+</system>
