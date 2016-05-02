@@ -2,7 +2,7 @@
 
 
 FFT_BASE=64
-BASE=4
+BASE=2
 
 
 function cali_sar {
