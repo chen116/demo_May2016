@@ -1,0 +1,6 @@
+desired_wcet ms: 10
+fft_size: 8192
+desired_wcet ms: 75
+fft_size: 32768
+desired_wcet ms: 200
+fft_size: 65536
