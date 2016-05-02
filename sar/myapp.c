@@ -332,6 +332,10 @@ int job(void)
     }
 
     fft(buf,size_iter);
+    fft(buf,size_iter);
+    fft(buf,size_iter);
+    fft(buf,size_iter);
+    
 
     
     --count;

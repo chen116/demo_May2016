@@ -5,3 +5,5 @@ $ bash cali_myapp.sh
 After calibration, to run the application:
 
 $ python app.py {appfile}
+or
+$ python target_tracking.py {appfile}

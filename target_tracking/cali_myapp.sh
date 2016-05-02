@@ -66,8 +66,8 @@ function cali_kalman {
 
     echo "Done wait, sleeping"
     sleep 1
-    echo "Killing log"
-    kill ${LOG_PID}
+    # echo "Killing log"
+    # kill ${LOG_PID}
     sleep 1
     echo "Sending SIGUSR1 to st_trace"
     kill -USR1 ${ST_TRACE_PID}
