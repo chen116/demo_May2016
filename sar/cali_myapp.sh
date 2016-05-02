@@ -1,8 +1,8 @@
 #/bin/bash
 
 
-FFT_BASE=256
-BASE=8
+FFT_BASE=64
+BASE=4
 
 
 function cali_sar {
