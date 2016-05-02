@@ -42,7 +42,7 @@ function cali_kalman {
     for nt in `seq 1 $num_tasks`;
       do
         # wcet(ms) period(ms) duration(s) mode appname fft_size/iter
-        $BASE_TASK 400 400 4 4 $PROG $kalmn_iter &
+        $BASE_TASK 400 400 1 4 $PROG $kalmn_iter &
         SPIN_PIDS="$SPIN_PIDS $!"
         NEW_SPIN_PIDS[`expr $nt - 1`]="$!"
     done
