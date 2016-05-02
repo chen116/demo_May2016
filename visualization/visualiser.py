@@ -15,6 +15,7 @@ if len(sys.argv) < 2:
 
 vm_ip = sys.argv[1]
 vm_file_source = '/root/rtOpenstack/hostMonitorTest'
+vm_pass = ''
 
 
 font = [{'family': 'serif',
@@ -102,7 +103,7 @@ def animate(i):
     time_cnt+=1
 
     t0 = time.time()
-    with pysftp.Connection(vm_ip, username='root', password='anch0rs') as sftp:
+    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
       sftp.get(vm_file_source, 'hostMonitorTest2')    
     with open('hostMonitorTest2') as j_file:
       data = json.load(j_file)
@@ -277,7 +278,7 @@ def animate2(i):
 
   apps_num = 0
   xaxis2.append(len(deadline_misses[0]))
-  with pysftp.Connection(vm_ip, username='root', password='anch0rs') as sftp:
+  with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
     sftp.get(vm_file_source, 'hostMonitorTest2')    
   with open('hostMonitorTest2') as j_file:
     data = json.load(j_file)
