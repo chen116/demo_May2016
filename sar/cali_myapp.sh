@@ -85,7 +85,7 @@ function cali_sar {
     if [ "$overshoot" == "1" ]
       then 
         FFT_BASE=$fft_size
-        fft_size=$(($fft_size - $BASE))
+        fft_size=$(($fft_size / $BASE))
         echo "see a overshoot, final loop count: $fft_size"
         echo desired_wcet ms: "$DESIRED_WCET" >> result
         echo fft_size: "$fft_size" >> result
@@ -95,7 +95,7 @@ function cali_sar {
       then 
         echo "no overshoot, loop count: $fft_size"
     fi
-    fft_size=$(($fft_size + $BASE))
+    fft_size=$(($fft_size * $BASE))
 
   done
 
