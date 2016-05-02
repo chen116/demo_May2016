@@ -1,7 +1,7 @@
 #/bin/bash
 
 
-FFT_BASE=512
+FFT_BASE=256
 BASE=8
 
 
