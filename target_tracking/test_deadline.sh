@@ -1,5 +1,6 @@
 #/bin/bash
 make myapp
+/root/liblitmus/setsched GSN-EDF
 rm /dev/shm/vmMon/*
 ./myapp 10 10 4 1 testDEADline 1100000 &
 sleep 3
