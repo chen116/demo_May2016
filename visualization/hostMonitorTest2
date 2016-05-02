@@ -1,0 +1,52 @@
+{
+    "TestHost": {
+        "ApplicationName": "TestApp1", 
+        "VCPUs": [
+            [
+                400
+            ], 
+            [
+                400
+            ], 
+            [
+                400
+            ]
+        ], 
+        "ApplicationParams": [
+            [
+                981
+            ], 
+            [
+                1000
+            ]
+        ], 
+        "CurrentMode": "1", 
+        "DeadlinesMissed": 6
+    }, 
+    "TestHost2": {
+        "ApplicationName": "TestApp2", 
+        "VCPUs": [
+            [
+                400
+            ], 
+            [
+                400
+            ], 
+            [
+                400
+            ]
+        ], 
+        "ApplicationParams": [
+            [
+                998, 
+                997
+            ], 
+            [
+                1000, 
+                1000
+            ]
+        ], 
+        "CurrentMode": "1", 
+        "DeadlinesMissed": 7
+    }
+}
