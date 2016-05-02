@@ -306,7 +306,7 @@ int job(void)
 {
     // long long i = 0;
     // long j = 0;
-    long k=0;
+
     int err;
     lt_t endTime;
     //lt_t beginTime;
