@@ -1,7 +1,7 @@
 #/bin/bash
 
-KALMAN_BASE=1100000
-BASE=100000
+KALMAN_BASE=11000
+BASE=1000
 
 
 function cali_kalman {
