@@ -26,7 +26,7 @@ taskObjs = []
 applicationModes = []
 applicationIndex = 0
 preious_mode = 0
-glb_duration = 1
+glb_duration = 5
 mode2iter = []
 
 # # ***** Get resource ID of this VM *****
@@ -71,14 +71,15 @@ def changeTask():
 		periods = applicationModes_j["Periods"][0]
 		execTime = applicationModes_j["ExecTime"][0]
 		duration = glb_duration
+		iter_size = mode2iter[int(mode)-1]
 		applicationIndex = applicationIndex + 1
 		print '\t',mode,'\t',appName
 		if preious_mode == 0:
-			with open('/dev/shm/vmMon/mode','w') as j_file:
+			with open('/dev/shm/vmMon/'+appName,'w') as j_file:
 				json.dump(data,j_file,indent=2)
 			preious_mode = int(mode)
 		elif preious_mode != int(mode):
-			with open('/dev/shm/vmMon/mode','w') as j_file:
+			with open('/dev/shm/vmMon/'+appName,'w') as j_file:
 				json.dump(data,j_file,indent=2)
 			preious_mode = int(mode)			
 
@@ -93,7 +94,7 @@ def changeTask():
 
 
 	# 	# Start new tasks
-		startTasks(execTime,periods,duration,mode,appName)
+		startTasks(execTime,periods,duration,mode,appName,iter_size)
 
 # 	# Start next timer
 	# currentTimer = threading.Timer(mode,changeTask)
@@ -126,9 +127,9 @@ def changeTask():
 def changeSched(sched):
 	subprocess.call(['/root/liblitmus/setsched',sched])
     
-def startTasks(execTime,periods,duration,mode,appName):
+def startTasks(execTime,periods,duration,mode,appName,iter_size):
 	changeSched('GSN-EDF')
-    #argv  1. wcet(ms) 2. period(ms) 3. duration(s) 4. mode 5. appName
+    #argv  1. wcet(ms) 2. period(ms) 3. duration(s) 4. mode 5. appName 6.iter
 
 	for taskID in xrange(0,1):
 			# myoutput = open(str(mode), 'w')
@@ -138,6 +139,7 @@ def startTasks(execTime,periods,duration,mode,appName):
 				str(duration),
 				mode,
 				appName,
+				iter_size,
 				'&'
 				])#,stdout=myoutput)
 			)
@@ -146,12 +148,22 @@ def startTasks(execTime,periods,duration,mode,appName):
 	time.sleep(8)
 
 
-
+def find_iter_for_modes():
+	global mode2iter
+	with open("result") as inFile:
+		inLines = inFile.readlines()
+		for lines in inLines:
+			if len(lines.split())==2:
+				mode2iter.append(lines.split()[1])
+	print mode2iter
 
 if __name__ == "__main__":
 	# If passed a file, we need to follow the applications
 	if len(sys.argv) == 2:
 
+		subprocess.call("rm /dev/shm/vmMon/*",shell=True)
+
+		find_iter_for_modes()
 
 		
 		with open(sys.argv[1]) as inFile:
@@ -189,7 +201,8 @@ if __name__ == "__main__":
 	# print applicationModes
 
 	changeTask()
-
+	subprocess.call("cat /dev/shm/vmMon/*",shell=True)
+	subprocess.call("ls /dev/shm/vmMon",shell=True)
 	# # Waits for input
 	# print('Press Ctrl+C to quit (Kills tasks if still running)')
 	# exitEvent.wait()

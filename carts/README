@@ -1,0 +1,3 @@
+To run CARTS:
+
+$java -jar Carts.jar test_in.xml MPR test_out.xml 
