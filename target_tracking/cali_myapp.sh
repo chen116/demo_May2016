@@ -1,12 +1,12 @@
 #/bin/bash
 
 KALMAN_BASE=1000
-
+BASE=100
 
 
 function cali_kalman {
 
-  BASE_TASK="/root/mytools/myapp"
+  BASE_TASK="./myapp"
   RELEASETS="/root/liblitmus/release_ts"
   ST_TRACE="/root/ft_tools/st-trace-schedule"
 
@@ -18,7 +18,7 @@ function cali_kalman {
 
   j=0
   DESIRED_WCET=$1
-  BASE=100
+
   kalmn_iter=$(($KALMAN_BASE + $BASE))
   while true; do
 

@@ -7,7 +7,7 @@ BASE=8
 
 function cali_sar {
 
-  BASE_TASK="/root/mytools/myapp"
+  BASE_TASK="./myapp"
   RELEASETS="/root/liblitmus/release_ts"
   ST_TRACE="/root/ft_tools/st-trace-schedule"
 
