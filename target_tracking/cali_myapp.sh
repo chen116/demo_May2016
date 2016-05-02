@@ -108,7 +108,7 @@ function cali_kalman {
   echo "DONE!"
 }
 
-
+rm ./result
 make myapp
 mkdir -p /dev/shm/vmMon/
 for desired_wcet in 40 150 250 

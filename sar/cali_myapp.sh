@@ -108,6 +108,7 @@ function cali_sar {
 
   echo "DONE!"
 }
+rm ./result
 make myapp
 mkdir -p /dev/shm/vmMon/
 
