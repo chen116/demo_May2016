@@ -6,6 +6,17 @@ from matplotlib.widgets import CheckButtons
 from matplotlib.widgets import RadioButtons,Button
 import json
 from threading import Thread, Lock
+import pysftp
+
+
+if len(sys.argv) < 2:
+  print "please input vm's ip"
+  sys.exit(0)
+
+vm_ip = sys.argv[1]
+vm_file_source = '/root/rtOpenstack/hostMonitorTest'
+
+
 font = [{'family': 'serif',
         'color':  'c',
         'weight': 'heavy',
@@ -77,7 +88,7 @@ def animate(i):
     # ax1.clear()
     # ax1.plot(xar,yar)
     # ax1.plot(xar,y2)
-    global mode_change, pre_mode, font,toshow,j_indi_util, time_cnt,xaxis,total_util,static_util, do_reset,do_pause
+    global mode_change, pre_mode, font,toshow,j_indi_util, time_cnt,xaxis,total_util,static_util, do_reset,do_pause,vm_file_source,vm_ip
 
     st = ['app1','app2','Total VCPUs util','Static VCPUs util']
     indi_util = []
@@ -91,6 +102,8 @@ def animate(i):
     time_cnt+=1
 
     t0 = time.time()
+    with pysftp.Connection(vm_ip, username='root', password='anch0rs') as sftp:
+      sftp.get(vm_file_source, 'hostMonitorTest2')    
     with open('hostMonitorTest2') as j_file:
       data = json.load(j_file)
       i=0
@@ -260,10 +273,12 @@ ax2 = fig.add_subplot(2,1,2)
 dl_slide_change = 0
 
 def animate2(i):
-  global toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change
+  global toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change,vm_file_source,vm_ip
 
   apps_num = 0
   xaxis2.append(len(deadline_misses[0]))
+  with pysftp.Connection(vm_ip, username='root', password='anch0rs') as sftp:
+    sftp.get(vm_file_source, 'hostMonitorTest2')    
   with open('hostMonitorTest2') as j_file:
     data = json.load(j_file)
     i=0

@@ -4,4 +4,4 @@ $ python fake_monitor.py
 
 To run the live plot:
 
-$ python visualiser.py
+$ python visualiser.py {vm's ip}
