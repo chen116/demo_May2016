@@ -155,6 +155,7 @@ def find_iter_for_modes():
 			for lines in inLines:
 				if len(lines.split())==2:
 					mode2iter.append(lines.split()[1])
+	print mode2iter
 
 if __name__ == "__main__":
 	# If passed a file, we need to follow the applications
