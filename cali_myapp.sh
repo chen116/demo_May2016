@@ -218,6 +218,7 @@ function cali_sar {
 
   echo "DONE!"
 }
+make myapp
 mkdir -p /dev/shm/vmMon/
 for desired_wcet in 40 150 250 
   do 
