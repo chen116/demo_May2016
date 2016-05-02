@@ -1,0 +1,11 @@
+# appName mode exectime(ms) period(ms)
+sar0 1 40 400
+sar1 3 40 400
+sar2 3 40 400
+sar3 2 40 400
+kal4 4 40 400
+kal5 4 40 400
+kal6 5 40 400
+kal7 6 40 400
+kal8 6 40 400
+kal9 7 40 400
