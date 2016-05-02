@@ -12,7 +12,7 @@ function cali_kalman {
 
   SPIN_PIDS=""
 
-  PROG="vic"
+  PROG="vic_kalman"
   DIR="run-data"
   declare -a NEW_SPIN_PIDS
   SchedNames="GSN-EDF"
@@ -43,7 +43,7 @@ function cali_kalman {
     for nt in `seq 1 $num_tasks`;
       do
         # wcet(ms) period(ms) duration(s) mode appname fft_size/iter
-        $BASE_TASK 400 400 1 4 $PROG $fft_size_or_iter &
+        $BASE_TASK 400 400 4 4 $PROG $fft_size_or_iter &
         SPIN_PIDS="$SPIN_PIDS $!"
         NEW_SPIN_PIDS[`expr $nt - 1`]="$!"
     done
@@ -121,7 +121,7 @@ function cali_sar {
 
   SPIN_PIDS=""
 
-  PROG="vic"
+  PROG="vic_fft"
   DIR="run-data"
   declare -a NEW_SPIN_PIDS
   SchedNames="GSN-EDF"
@@ -152,7 +152,7 @@ function cali_sar {
     for nt in `seq 1 $num_tasks`;
       do
         # wcet(ms) period(ms) duration(s) mode appname fft_size/iter
-        $BASE_TASK 400 400 1 4 $PROG $fft_size_or_iter &
+        $BASE_TASK 400 400 4 1 $PROG $fft_size_or_iter &
         SPIN_PIDS="$SPIN_PIDS $!"
         NEW_SPIN_PIDS[`expr $nt - 1`]="$!"
     done
