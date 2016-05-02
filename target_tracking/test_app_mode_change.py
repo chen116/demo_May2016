@@ -160,7 +160,7 @@ def find_iter_for_modes():
 if __name__ == "__main__":
 	# If passed a file, we need to follow the applications
 	if len(sys.argv) == 2:
-
+		subprocess.call("mkdir -p /dev/shm/vmMon",shell=True)
 		subprocess.call("rm /dev/shm/vmMon/*",shell=True)
 
 		find_iter_for_modes()
