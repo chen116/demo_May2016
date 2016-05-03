@@ -24,7 +24,7 @@ vm_pass = ''
 
 fonsize = 14
 line_width = 5
-update_freq=2000 #ms
+update_freq=500 #ms
 
 
 
@@ -130,8 +130,8 @@ def animate(i):
 
     t0 = time.time()
     # try:
-    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-      sftp.get(vm_file_source, 'hostMonitorTest2')    
+    # with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+    #   sftp.get(vm_file_source, 'hostMonitorTest2')    
     # except:
       # pass
     data = {}
@@ -183,53 +183,53 @@ def animate(i):
     if(do_pause):
       if do_reset:
         ax1.clear()
-      return
-    ax1.clear()
-    if(toshow[2]):
-      ax1.plot(xaxis,total_util,'--g',linewidth=line_width)
-    if(toshow[3]):
-      ax1.plot(xaxis,static_util,'--b',linewidth=line_width)
-    color = [ 'c','m','g']
+    else: 
+      ax1.clear()
+      if(toshow[2]):
+        ax1.plot(xaxis,total_util,'--g',linewidth=line_width)
+      if(toshow[3]):
+        ax1.plot(xaxis,static_util,'--b',linewidth=line_width)
+      color = [ 'c','m','g']
 
-    for app in range(0,apps_num):
-      if(toshow[app]):
-        ax1.plot(xaxis,j_indi_util[app],color[app],linewidth=line_width)
-    
-    # ax1.set_legend(['total'])
-    ax1.set_xlim([0,150])
-    ax1.set_ylim([0,2.5])
+      for app in range(0,apps_num):
+        if(toshow[app]):
+          ax1.plot(xaxis,j_indi_util[app],color[app],linewidth=line_width)
+      
+      # ax1.set_legend(['total'])
+      ax1.set_xlim([0,150])
+      ax1.set_ylim([0,2.5])
 
-    ax1.set_xlabel('Time')
-    ax1.set_ylabel('VCPUS')
-    # ax1.legend(['total_util'])#,'0','1','2','3'])
-    ax1.text(40, 25, 'total util:', style='italic',bbox={'facecolor':'blue', 'alpha':0.5, 'pad':10})
-    if len_so_far==150 or do_reset:
-      j_indi_util =[]
-      j_indi_util.append([])
-      j_indi_util.append([])  
-      j_indi_util.append([])    
-      mode_change = []
-      mode_change.append([])
-      mode_change.append([])    
-      mode_change.append([])
-      pre_mode = []
-      pre_mode.append(0)
-      pre_mode.append(0)
-      pre_mode.append(0)
-      xaxis=[]  
-      total_util=[]
-      static_util=[]
-      if do_reset > 0:
-        do_reset-=1
-    # st = ['app1','app2','total_util','static']
-    for k in range(0,len(toshow)):
-      if(toshow[k]):
-        ax1.text(-23,.5+float(k)*0.6,st[k],fontdict=font[k])
-        if(k<=1):
-          for i in range(0,len(mode_change[0])):
-            if(mode_change[k][i]>10):
-              # ax1.text(i,1+float(k)*0.5,str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
-              ax1.text(i,float(j_indi_util[k][i]),"mode " +str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
+      ax1.set_xlabel('Time')
+      ax1.set_ylabel('VCPUS')
+      # ax1.legend(['total_util'])#,'0','1','2','3'])
+      ax1.text(40, 25, 'total util:', style='italic',bbox={'facecolor':'blue', 'alpha':0.5, 'pad':10})
+      if len_so_far==150 or do_reset:
+        j_indi_util =[]
+        j_indi_util.append([])
+        j_indi_util.append([])  
+        j_indi_util.append([])    
+        mode_change = []
+        mode_change.append([])
+        mode_change.append([])    
+        mode_change.append([])
+        pre_mode = []
+        pre_mode.append(0)
+        pre_mode.append(0)
+        pre_mode.append(0)
+        xaxis=[]  
+        total_util=[]
+        static_util=[]
+        if do_reset > 0:
+          do_reset-=1
+      # st = ['app1','app2','total_util','static']
+      for k in range(0,len(toshow)):
+        if(toshow[k]):
+          ax1.text(-23,.5+float(k)*0.6,st[k],fontdict=font[k])
+          if(k<=1):
+            for i in range(0,len(mode_change[0])):
+              if(mode_change[k][i]>10):
+                # ax1.text(i,1+float(k)*0.5,str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
+                ax1.text(i+0.2,0.1+float(j_indi_util[k][i]),"mode " +str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
 
 
     apps_num = 0
