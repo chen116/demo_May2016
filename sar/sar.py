@@ -75,6 +75,7 @@ def changeTask():
 		execTime = applicationModes_j["ExecTime"][0]
 		random.seed( randint(0,199999))
 		duration = randint(10,25)
+		glb_duration = duration
 		iter_size = mode2iter[int(mode)-1]
 		applicationIndex = applicationIndex + 1
 		if applicationIndex >= len(applicationModes):
@@ -138,7 +139,7 @@ def changeSched(sched):
 def startTasks(execTime,periods,duration,mode,appName,iter_size):
 	changeSched('GSN-EDF')
     #argv  1. wcet(ms) 2. period(ms) 3. duration(s) 4. mode 5. appName 6.iter
-
+    global glb_duration
 	for taskID in xrange(0,1):
 			# myoutput = open(str(mode), 'w')
 			taskObjs.append( subprocess.Popen(["./myapp",
@@ -151,9 +152,10 @@ def startTasks(execTime,periods,duration,mode,appName,iter_size):
 				'&'
 				])#,stdout=myoutput)
 			)
-	time.sleep(5)
+	time.sleep(3)
 	subprocess.call(["/root/liblitmus/release_ts"])
-	time.sleep(8)
+	time.sleep(4)
+	time.sleep(glb_duration)
 
 
 def find_iter_for_modes():

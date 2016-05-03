@@ -89,7 +89,7 @@ def animate(i):
     # ax1.clear()
     # ax1.plot(xar,yar)
     # ax1.plot(xar,y2)
-    global mode_change, pre_mode, font,toshow,j_indi_util, time_cnt,xaxis,total_util,static_util, do_reset,do_pause,vm_file_source,vm_ip
+    global mode_change, pre_mode, font,toshow,j_indi_util, time_cnt,xaxis,total_util,static_util, do_reset,do_pause,vm_file_source,vm_ip,vm_pass
 
     st = ['app1','app2','Total VCPUs util','Static VCPUs util']
     indi_util = []
@@ -139,7 +139,7 @@ def animate(i):
     # print time_cnt
     one_total_util = 0
     total_util.append(j_indi_util[0][len_so_far-1]+j_indi_util[1][len_so_far-1]  )
-    static_util.append(6)
+    static_util.append(2)
     st[2] += "\n"+str(total_util[len(total_util)-1])
     st[3] += "\n"+str(static_util[len(static_util)-1])
     # print total_util
@@ -167,7 +167,7 @@ def animate(i):
     
     # ax1.set_legend(['total'])
     ax1.set_xlim([0,150])
-    ax1.set_ylim([0,8])
+    ax1.set_ylim([0,3])
 
     ax1.set_xlabel('time')
     ax1.set_ylabel('VCPUS')
@@ -206,7 +206,7 @@ def animate(i):
 
 
     
-ani=animation.FuncAnimation(fig, animate, interval=500)
+ani=animation.FuncAnimation(fig, animate, interval=2000)
 
 rax = plt.axes([0.9, 0.6, 0.10, 0.15])
 rax2 = plt.axes([0.9, 0.8, 0.10, 0.15])
@@ -274,7 +274,7 @@ ax2 = fig.add_subplot(2,1,2)
 dl_slide_change = 0
 
 def animate2(i):
-  global toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change,vm_file_source,vm_ip
+  global toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change,vm_file_source,vm_ip,vm_pass
 
   apps_num = 0
   xaxis2.append(len(deadline_misses[0]))
@@ -315,7 +315,7 @@ def animate2(i):
   # else:
   #   ax2.set_xlim([0,dl_slide_change])
   ax2.set_xlim([0,150])
-  ax2.set_ylim([0,35])
+  ax2.set_ylim([0,10])
 
   ax2.set_xlabel('time')
   ax2.set_ylabel('Deadline misses')
@@ -377,7 +377,7 @@ def animate2(i):
 
 
     
-ani2=animation.FuncAnimation(fig, animate2, interval=500)
+ani2=animation.FuncAnimation(fig, animate2, interval=2000)
 
 
 # mng = plt.get_current_fig_manager()

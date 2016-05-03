@@ -76,11 +76,11 @@ def changeTask():
 		print '\t',mode,'\t',appName
 		if preious_mode == 0:
 			with open('/dev/shm/rtOpenstack/'+appName,'w') as j_file:
-				json.dump(data,j_file,indent=2)
+				json.dump(applicationModes_j,j_file,indent=2)
 			preious_mode = int(mode)
 		elif preious_mode != int(mode):
 			with open('/dev/shm/rtOpenstack/'+appName,'w') as j_file:
-				json.dump(data,j_file,indent=2)
+				json.dump(applicationModes_j,j_file,indent=2)
 			preious_mode = int(mode)			
 
 	# 	# Report back to nova
