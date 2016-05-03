@@ -68,6 +68,16 @@ pre_mode.append(0)
 pre_mode.append(0)
 pre_mode.append(0)
 
+mode_change2 = []
+mode_change2.append([])
+mode_change2.append([])    
+mode_change2.append([])
+
+pre_mode2 = []
+pre_mode2.append(0)
+pre_mode2.append(0)
+pre_mode2.append(0)
+
 
 # app1, app2, total, static
 toshow = [1,1,1,1]
@@ -101,8 +111,11 @@ def animate(i):
     time_cnt+=1
 
     t0 = time.time()
-    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-      sftp.get(vm_file_source, 'hostMonitorTest2')    
+    try:
+      with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+        sftp.get(vm_file_source, 'hostMonitorTest2')    
+    except:
+      pass
     with open('hostMonitorTest2') as j_file:
       data = json.load(j_file)
       i=0
@@ -274,22 +287,33 @@ dl_slide_change = 0
 pre_app_dlm = [0,0]
 
 def animate2(i):
-  global pre_app_dlm,toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change,vm_file_source,vm_ip,vm_pass
+  global pre_app_dlm,toshow,font,deadline_misses,xaxis2,total_dm, do_reset,pre_mode2, dl_slide_change,do_pause,j_indi_util,mode_change2,vm_file_source,vm_ip,vm_pass
 
   apps_num = 0
   xaxis2.append(len(deadline_misses[0]))
-  with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-    sftp.get(vm_file_source, 'hostMonitorTest2')    
+  try:
+    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+      sftp.get(vm_file_source, 'hostMonitorTest2')    
+  except:
+    pass
   with open('hostMonitorTest2') as j_file:
     data = json.load(j_file)
     i=0
     tmp_total_dm = 0
     for val in data.keys():
-      # tmp_total_dm += int(data[val]["DeadlinesMissed"]) 
-      # deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) )
-      deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i] )
-      tmp_total_dm += int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i]
-      pre_app_dlm[i] = int(data[val]["DeadlinesMissed"])
+      tmp_total_dm += int(data[val]["DeadlinesMissed"]) 
+      deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) )
+      # deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i] )
+      # tmp_total_dm += int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i]
+      # pre_app_dlm[i] = int(data[val]["DeadlinesMissed"])
+      if(len(j_indi_util[0])==1):
+        mode_change2[i].append(int(data[val]["CurrentMode"]))
+      elif(pre_mode2[i] != data[val]["CurrentMode"] ):
+        mode_change2[i].append(int(pre_mode2[i])+10*int(data[val]["CurrentMode"]))
+      else:
+        mode_change2[i].append(0)
+
+      pre_mode2[i] = data[val]["CurrentMode"]  
 
 
       apps_num+=1
@@ -311,9 +335,16 @@ def animate2(i):
   #   if(toshow[app]):
   #     ax2.plot(xaxis2,deadline_misses[app],color[app] ) 
   #     if(app<=2):
-  #       for i in range(0,len(mode_change[0])):
-  #         if(mode_change[app][i]>10):
-  #           ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change[app][i]%10)+' to '+ str(mode_change[app][i]/10),fontdict=font[app])
+  #       for i in range(0,len(mode_change2[0])):
+  #         if(mode_change2[app][i]>10):
+  #           ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
+  for app in range(0,apps_num):
+    if(toshow[app]):
+      ax2.plot(xaxis2,deadline_misses[app],color[app] ) 
+      if(app<=1):
+        for i in range(0,len(mode_change2[0])):
+          if(mode_change2[app][i]>10):
+            ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
 
 
   # if dl_slide_change==0:
@@ -339,21 +370,18 @@ def animate2(i):
     deadline_misses.append([])
     deadline_misses.append([])
     deadline_misses.append([])
-    mode_change = []
-    mode_change.append([])
-    mode_change.append([])    
-    mode_change.append([])
+    mode_change2 = []
+    mode_change2.append([])
+    mode_change2.append([])    
+    mode_change2.append([])
+    pre_mode2 = []
+    pre_mode2.append(0)
+    pre_mode2.append(0)
+    pre_mode2.append(0)
     total_dm=[]    
     xaxis2=[] 
     if do_reset > 0:
       do_reset -=1
-  for app in range(0,apps_num):
-    if(toshow[app]):
-      ax2.plot(xaxis2,deadline_misses[app],color[app] ) 
-      if(app<=1):
-        for i in range(0,len(mode_change[0])):
-          if(mode_change[app][i]>10):
-            ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change[app][i]%10)+' to '+ str(mode_change[app][i]/10),fontdict=font[app])
 
     # global font
     # app=[0,0,0,0]
