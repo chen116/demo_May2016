@@ -73,7 +73,6 @@ pre_mode.append(0)
 toshow = [1,1,1,1]
 
 def animate(i):
-
     # pullData = open("s.txt","r").read()
     # dataArray = pullData.split('\n')
     # xar = []
@@ -85,13 +84,12 @@ def animate(i):
     #         xar.append(int(x))
     #         yar.append(int(y))
     #         y2.append(int(y)+2)
-
     # ax1.clear()
     # ax1.plot(xar,yar)
     # ax1.plot(xar,y2)
     global mode_change, pre_mode, font,toshow,j_indi_util, time_cnt,xaxis,total_util,static_util, do_reset,do_pause,vm_file_source,vm_ip,vm_pass
 
-    st = ['app1','app2','Total VCPUs util','Static VCPUs util']
+    st = ['app1','app2','Total VCPUs Util:','Static VCPUs Util:']
     indi_util = []
     # total_util = []
     at_first_line = 1
@@ -103,8 +101,8 @@ def animate(i):
     time_cnt+=1
 
     t0 = time.time()
-    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-      sftp.get(vm_file_source, 'hostMonitorTest2')    
+    # with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+    #   sftp.get(vm_file_source, 'hostMonitorTest2')    
     with open('hostMonitorTest2') as j_file:
       data = json.load(j_file)
       i=0
@@ -167,12 +165,12 @@ def animate(i):
     
     # ax1.set_legend(['total'])
     ax1.set_xlim([0,150])
-    ax1.set_ylim([0,3])
+    ax1.set_ylim([0,2.5])
 
     ax1.set_xlabel('time')
     ax1.set_ylabel('VCPUS')
     # ax1.legend(['total_util'])#,'0','1','2','3'])
-    ax1.text(40, 25, 'total util', style='italic',bbox={'facecolor':'blue', 'alpha':0.5, 'pad':10})
+    ax1.text(40, 25, 'total util:', style='italic',bbox={'facecolor':'blue', 'alpha':0.5, 'pad':10})
     if len_so_far==150 or do_reset:
       j_indi_util =[]
       j_indi_util.append([])
@@ -194,7 +192,7 @@ def animate(i):
     # st = ['app1','app2','total_util','static']
     for k in range(0,len(toshow)):
       if(toshow[k]):
-        ax1.text(-23,2+float(k)*1.5,st[k],fontdict=font[k])
+        ax1.text(-23,1+float(k)*0.5,st[k],fontdict=font[k])
         if(k<=1):
           for i in range(0,len(mode_change[0])):
             if(mode_change[k][i]>10):
@@ -209,23 +207,23 @@ def animate(i):
 ani=animation.FuncAnimation(fig, animate, interval=2000)
 
 rax = plt.axes([0.9, 0.6, 0.10, 0.15])
-rax2 = plt.axes([0.9, 0.8, 0.10, 0.15])
+# rax2 = plt.axes([0.9, 0.8, 0.10, 0.15])
 check = CheckButtons(rax, ('show app1','show app2','show static','show total'), (True,True,True,True))
-radio = RadioButtons(rax2, ('Dynamic','Static'))
+# radio = RadioButtons(rax2, ('Dynamic','Static'))
 
-def dyno_static(label):
-  if(label=="Dynamic"):
-    with open('dom0_to_monitor.json','w') as j_file:
-      # data = json.dumps
-      json.dump({'dynamic_static':1},j_file,indent=4)
+# def dyno_static(label):
+#   if(label=="Dynamic"):
+#     with open('dom0_to_monitor.json','w') as j_file:
+#       # data = json.dumps
+#       json.dump({'dynamic_static':1},j_file,indent=4)
 
-  else:
-    with open('dom0_to_monitor.json','w') as j_file:
-      json.dump({'dynamic_static':0},j_file,indent=4)
+#   else:
+#     with open('dom0_to_monitor.json','w') as j_file:
+#       json.dump({'dynamic_static':0},j_file,indent=4)
 
 
 
-radio.on_clicked(dyno_static)
+# radio.on_clicked(dyno_static)
 
 axcolor = 'lightgoldenrodyellow'
 resetax = plt.axes([0.9, 0.025, 0.1, 0.04])
@@ -273,21 +271,29 @@ ax2 = fig.add_subplot(2,1,2)
 
 dl_slide_change = 0
 
+pre_app_dlm = [0,0]
+
 def animate2(i):
-  global toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change,vm_file_source,vm_ip,vm_pass
+  global pre_app_dlm,toshow,font,deadline_misses,xaxis2,total_dm, do_reset, dl_slide_change,do_pause,j_indi_util,mode_change,vm_file_source,vm_ip,vm_pass
 
   apps_num = 0
   xaxis2.append(len(deadline_misses[0]))
-  with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-    sftp.get(vm_file_source, 'hostMonitorTest2')    
+  # with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+  #   sftp.get(vm_file_source, 'hostMonitorTest2')    
   with open('hostMonitorTest2') as j_file:
     data = json.load(j_file)
     i=0
     tmp_total_dm = 0
     for val in data.keys():
+      # tmp_total_dm += int(data[val]["DeadlinesMissed"]) 
+      # deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) )
+      deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i] )
+      tmp_total_dm += int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i]
+      pre_app_dlm[i] = int(data[val]["DeadlinesMissed"])
+
+
       apps_num+=1
-      tmp_total_dm += int(data[val]["DeadlinesMissed"]) 
-      deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) )
+
       i+=1
     total_dm.append(tmp_total_dm)
   if(do_pause):
@@ -327,7 +333,7 @@ def animate2(i):
     i+=1
   for i in range(0,len(toshow)-1):
     if(toshow[i]):
-      ax2.text(-23,5.5+float(i)*8,st[i],fontdict=font[i])#,bbox=dict(facecolor='none', edgecolor='blue', pad=10.0))
+      ax2.text(-23,5+float(i)*2.2,st[i],fontdict=font[i])#,bbox=dict(facecolor='none', edgecolor='blue', pad=10.0))
   if len(deadline_misses[0])==150 or do_reset:
     deadline_misses =[]
     deadline_misses.append([])
