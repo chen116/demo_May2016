@@ -110,7 +110,7 @@ function cali_sar {
 }
 rm ./result
 make myapp
-mkdir -p /dev/shm/vmMon/
+mkdir -p /dev/shm/rtOpenstack/
 
 for desired_wcet in 10 75 200 
   do 

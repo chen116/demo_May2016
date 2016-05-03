@@ -110,7 +110,7 @@ function cali_kalman {
 
 rm ./result
 make myapp
-mkdir -p /dev/shm/vmMon/
+mkdir -p /dev/shm/rtOpenstack/
 for desired_wcet in 40 150 250 
   do 
       cali_kalman $desired_wcet

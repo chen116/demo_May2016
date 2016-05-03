@@ -75,13 +75,13 @@ def changeTask():
 		applicationIndex = applicationIndex + 1
 		print '\t',mode,'\t',appName
 		if preious_mode == 0:
-			with open('/dev/shm/vmMon/mode','w') as j_file:
-			#with open('/dev/shm/vmMon/'+appName,'w') as j_file:
+			with open('/dev/shm/rtOpenstack/mode','w') as j_file:
+			#with open('/dev/shm/rtOpenstack/'+appName,'w') as j_file:
 				json.dump(data,j_file,indent=2)
 			preious_mode = int(mode)
 		elif preious_mode != int(mode):
-			with open('/dev/shm/vmMon/mode','w') as j_file:
-			#with open('/dev/shm/vmMon/'+appName,'w') as j_file:
+			with open('/dev/shm/rtOpenstack/mode','w') as j_file:
+			#with open('/dev/shm/rtOpenstack/'+appName,'w') as j_file:
 				json.dump(data,j_file,indent=2)
 			preious_mode = int(mode)			
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 	# If passed a file, we need to follow the applications
 	if len(sys.argv) == 2:
 		subprocess.call("make myapp",shell=True)
-		subprocess.call("mkdir -p /dev/shm/vmMon",shell=True)
+		subprocess.call("mkdir -p /dev/shm/rtOpenstack",shell=True)
 		find_iter_for_modes()
 
 		
