@@ -103,6 +103,7 @@ def changeTask():
 
 
 	# 	# Start new tasks
+		time.sleep(9)
 		startTasks(execTime,periods,duration,mode,appName,iter_size)
 
 # 	# Start next timer
