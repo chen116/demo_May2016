@@ -101,8 +101,8 @@ def animate(i):
     time_cnt+=1
 
     t0 = time.time()
-    # with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-    #   sftp.get(vm_file_source, 'hostMonitorTest2')    
+    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+      sftp.get(vm_file_source, 'hostMonitorTest2')    
     with open('hostMonitorTest2') as j_file:
       data = json.load(j_file)
       i=0
@@ -278,8 +278,8 @@ def animate2(i):
 
   apps_num = 0
   xaxis2.append(len(deadline_misses[0]))
-  # with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-  #   sftp.get(vm_file_source, 'hostMonitorTest2')    
+  with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+    sftp.get(vm_file_source, 'hostMonitorTest2')    
   with open('hostMonitorTest2') as j_file:
     data = json.load(j_file)
     i=0
