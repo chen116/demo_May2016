@@ -3,14 +3,17 @@
         "ApplicationName": "TestApp1", 
         "VCPUs": [
             [
-                399, 
-                398
+                400, 
+                400, 
+                200
             ], 
             [
+                400, 
                 400, 
                 400
             ], 
             [
+                400, 
                 400, 
                 400
             ]
@@ -23,22 +26,19 @@
                 1000
             ]
         ], 
-        "CurrentMode": "2", 
-        "DeadlinesMissed": 5
+        "CurrentMode": "3", 
+        "DeadlinesMissed": 2
     }, 
     "TestHost2": {
         "ApplicationName": "TestApp2", 
         "VCPUs": [
             [
-                399, 
-                398
-            ], 
-            [
-                400, 
                 400
             ], 
             [
-                400, 
+                400
+            ], 
+            [
                 400
             ]
         ], 
@@ -52,7 +52,7 @@
                 1000
             ]
         ], 
-        "CurrentMode": "2", 
-        "DeadlinesMissed": 5
+        "CurrentMode": "1", 
+        "DeadlinesMissed": 3
     }
 }
