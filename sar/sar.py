@@ -138,7 +138,7 @@ def changeSched(sched):
     
 def startTasks(execTime,periods,duration,mode,appName,iter_size):
 	changeSched('GSN-EDF')
-    #argv  1. wcet(ms) 2. period(ms) 3. duration(s) 4. mode 5. appName 6.iter
+	#argv  1. wcet(ms) 2. period(ms) 3. duration(s) 4. mode 5. appName 6.iter
 	global glb_duration
 	for taskID in xrange(0,1):
 			# myoutput = open(str(mode), 'w')
