@@ -15,7 +15,6 @@
                 400
             ]
         ], 
-        "DeadlinesMissed": 7647, 
         "ApplicationParams": [
             [
                 981
@@ -24,7 +23,8 @@
                 1000
             ]
         ], 
-        "CurrentMode": "2"
+        "CurrentMode": "2", 
+        "DeadlinesMissed": 7772
     }, 
     "TestHost2": {
         "ApplicationName": "TestApp2", 
@@ -45,7 +45,6 @@
                 400
             ]
         ], 
-        "DeadlinesMissed": 8087, 
         "ApplicationParams": [
             [
                 998, 
@@ -56,6 +55,7 @@
                 1000
             ]
         ], 
-        "CurrentMode": "3"
+        "CurrentMode": "3", 
+        "DeadlinesMissed": 8239
     }
 }

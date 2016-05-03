@@ -24,7 +24,7 @@ vm_pass = ''
 
 fonsize = 14
 line_width = 5
-update_freq=500 #ms
+update_freq=2000 #ms
 
 
 
