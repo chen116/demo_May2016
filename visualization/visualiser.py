@@ -130,8 +130,8 @@ def animate(i):
 
     t0 = time.time()
     # try:
-    # with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-    #   sftp.get(vm_file_source, 'hostMonitorTest2')    
+    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+      sftp.get(vm_file_source, 'hostMonitorTest2')    
     # except:
       # pass
     data = {}
