@@ -49,7 +49,7 @@ while 1:
 		i=0
 		for vm_id in data.keys():
 			data[vm_id]["VCPUs"] = vm_mode[i]
-			data[vm_id]["DeadlinesMissed"] = randint(0,10)
+			data[vm_id]["DeadlinesMissed"] += randint(0,10)
 			data[vm_id]["CurrentMode"] = str(vm_mode_name[i]+1)
 			i+=1
 

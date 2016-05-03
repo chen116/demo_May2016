@@ -22,9 +22,9 @@ vm_ip = sys.argv[1]
 vm_file_source = '/root/rtOpenstack/hostMonitorTest'
 vm_pass = ''
 
-fonsize = 14
+fonsize = 15
 line_width = 5
-update_freq=2000 #ms
+update_freq=500 #ms
 
 
 
@@ -58,8 +58,6 @@ do_reset =1
 do_pause =0
 fig = plt.figure()
 ax1 = fig.add_subplot(2,1,1)
-ax2 = fig.add_subplot(2,1,2)
-
 j_indi_util = []
 time_cnt = 0
 xaxis=[]
@@ -94,7 +92,7 @@ pre_mode2 = []
 pre_mode2.append(0)
 pre_mode2.append(0)
 pre_mode2.append(0)
-pre_app_dlm = [0,0]
+
 
 # app1, app2, total, static
 toshow = [1,1,1,1]
@@ -115,7 +113,6 @@ def animate(i):
     # ax1.plot(xar,yar)
     # ax1.plot(xar,y2)
     global line_width, mode_change, pre_mode, font,toshow,j_indi_util, time_cnt,xaxis,total_util,static_util, do_reset,do_pause,vm_file_source,vm_ip,vm_pass
-    global line_width,pre_app_dlm,toshow,font,deadline_misses,xaxis2,total_dm, do_reset,pre_mode2,do_pause,j_indi_util,mode_change2,vm_file_source,vm_ip,vm_pass
 
     st = ['app1','app2','Total VCPUs Util:','Static VCPUs Util:']
     indi_util = []
@@ -130,11 +127,10 @@ def animate(i):
 
     t0 = time.time()
     # try:
-    with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-      sftp.get(vm_file_source, 'hostMonitorTest2')    
+    #with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+    #  sftp.get(vm_file_source, 'hostMonitorTest2')    
     # except:
       # pass
-    data = {}
     with open('hostMonitorTest2') as j_file:
       data = json.load(j_file)
       i=0
@@ -199,7 +195,7 @@ def animate(i):
     ax1.set_xlim([0,150])
     ax1.set_ylim([0,2.5])
 
-    ax1.set_xlabel('Time')
+    ax1.set_xlabel('time')
     ax1.set_ylabel('VCPUS')
     # ax1.legend(['total_util'])#,'0','1','2','3'])
     ax1.text(40, 25, 'total util:', style='italic',bbox={'facecolor':'blue', 'alpha':0.5, 'pad':10})
@@ -231,101 +227,6 @@ def animate(i):
               # ax1.text(i,1+float(k)*0.5,str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
               ax1.text(i,float(j_indi_util[k][i]),"mode " +str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
 
-
-    apps_num = 0
-    xaxis2.append(len(deadline_misses[0]))
-    # try:
-    #with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
-    #  sftp.get(vm_file_source, 'hostMonitorTest2')    
-    # except:
-    #   pass
-    # with open('hostMonitorTest2') as j_file:
-    #   data = json.load(j_file)
-    i=0
-    tmp_total_dm = 0
-    for val in data.keys():
-      #tmp_total_dm += int(data[val]["DeadlinesMissed"]) 
-      #deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) )
-      deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i] )
-      tmp_total_dm += int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i]
-      pre_app_dlm[i] = int(data[val]["DeadlinesMissed"])
-      if(len(j_indi_util[0])==1):
-        mode_change2[i].append(int(data[val]["CurrentMode"]))
-      elif(pre_mode2[i] != data[val]["CurrentMode"] ):
-        mode_change2[i].append(int(pre_mode2[i])+10*int(data[val]["CurrentMode"]))
-      else:
-        mode_change2[i].append(0)
-
-      pre_mode2[i] = data[val]["CurrentMode"]  
-
-
-      apps_num+=1
-
-      i+=1
-    total_dm.append(tmp_total_dm)
-    if(do_pause):
-      if do_reset:
-        ax2.clear()
-      return
-    ax2.clear()
-    if(toshow[2]):
-      ax2.plot(xaxis2,total_dm,'--g',linewidth=line_width)
-    color = [ 'c','m','g']
-    # print "deadline_misses"
-    # print deadline_misses
-
-    # for app in range(0,apps_num):
-    #   if(toshow[app]):
-    #     ax2.plot(xaxis2,deadline_misses[app],color[app] ) 
-    #     if(app<=2):
-    #       for i in range(0,len(mode_change2[0])):
-    #         if(mode_change2[app][i]>10):
-    #           ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
-    for app in range(0,apps_num):
-      if(toshow[app]):
-        ax2.plot(xaxis2,deadline_misses[app],color[app] ,linewidth=line_width)
-        # if(app<=1):
-        #   for i in range(0,len(mode_change2[0])):
-        #     if(mode_change2[app][i]>10):
-        #       ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
-
-
-    # if dl_slide_change==0:
-    #   ax2.set_xlim([0,150])
-    # else:
-    #   ax2.set_xlim([0,dl_slide_change])
-    ax2.set_xlim([0,150])
-    ax2.set_ylim([0,10])
-
-    ax2.set_xlabel('Time')
-    ax2.set_ylabel('Deadline Misses')
-
-    st = ['app1','app2','Total misses:'+str(total_dm[-1])]
-    i=0
-    for val in data.keys():
-      # st[i] = data[val]["ApplicationName"] + "\n Mode" + str(data[val]["CurrentMode"]) + "\n Misses:" + str(data[val]["DeadlinesMissed"])
-      st[i] = data[val]["ApplicationName"] + "\n Mode" + str(data[val]["CurrentMode"]) + "\n Misses:" + str(deadline_misses[i][len(deadline_misses[i])-1])
-      i+=1
-    for i in range(0,len(toshow)-1):
-      if(toshow[i]):
-        ax2.text(-23,5+float(i)*2.4,st[i],fontdict=font[i])#,bbox=dict(facecolor='none', edgecolor='blue', pad=10.0))
-    if len(deadline_misses[0])==150 or do_reset:
-      deadline_misses =[]
-      deadline_misses.append([])
-      deadline_misses.append([])
-      deadline_misses.append([])
-      mode_change2 = []
-      mode_change2.append([])
-      mode_change2.append([])    
-      mode_change2.append([])
-      pre_mode2 = []
-      pre_mode2.append(0)
-      pre_mode2.append(0)
-      pre_mode2.append(0)
-      total_dm=[]    
-      xaxis2=[] 
-      if do_reset > 0:
-        do_reset -=1
 
         
 
@@ -392,9 +293,111 @@ check.on_clicked(func)
 
 
 
+ax2 = fig.add_subplot(2,1,2)
 
 
 
+dl_slide_change = 0
+
+pre_app_dlm = [0,0]
+
+def animate2(i):
+  global line_width,pre_app_dlm,toshow,font,deadline_misses,xaxis2,total_dm, do_reset,pre_mode2, dl_slide_change,do_pause,j_indi_util,mode_change2,vm_file_source,vm_ip,vm_pass
+
+  apps_num = 0
+  xaxis2.append(len(deadline_misses[0]))
+  # try:
+  #with pysftp.Connection(vm_ip, username='root', password=vm_pass) as sftp:
+  #  sftp.get(vm_file_source, 'hostMonitorTest2')    
+  # except:
+  #   pass
+  with open('hostMonitorTest2') as j_file:
+    data = json.load(j_file)
+    i=0
+    tmp_total_dm = 0
+    for val in data.keys():
+      #tmp_total_dm += int(data[val]["DeadlinesMissed"]) 
+      #deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) )
+      deadline_misses[i].append(int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i] )
+      tmp_total_dm += int(data[val]["DeadlinesMissed"]) - pre_app_dlm[i]
+      pre_app_dlm[i] = int(data[val]["DeadlinesMissed"])
+      if(len(j_indi_util[0])==1):
+        mode_change2[i].append(int(data[val]["CurrentMode"]))
+      elif(pre_mode2[i] != data[val]["CurrentMode"] ):
+        mode_change2[i].append(int(pre_mode2[i])+10*int(data[val]["CurrentMode"]))
+      else:
+        mode_change2[i].append(0)
+
+      pre_mode2[i] = data[val]["CurrentMode"]  
+
+
+      apps_num+=1
+
+      i+=1
+    total_dm.append(tmp_total_dm)
+  if(do_pause):
+    if do_reset:
+      ax2.clear()
+    return
+  ax2.clear()
+  if(toshow[2]):
+    ax2.plot(xaxis2,total_dm,'--g',linewidth=line_width)
+  color = [ 'c','m','g']
+  # print "deadline_misses"
+  # print deadline_misses
+
+  # for app in range(0,apps_num):
+  #   if(toshow[app]):
+  #     ax2.plot(xaxis2,deadline_misses[app],color[app] ) 
+  #     if(app<=2):
+  #       for i in range(0,len(mode_change2[0])):
+  #         if(mode_change2[app][i]>10):
+  #           ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
+  for app in range(0,apps_num):
+    if(toshow[app]):
+      ax2.plot(xaxis2,deadline_misses[app],color[app] ,linewidth=line_width)
+      # if(app<=1):
+      #   for i in range(0,len(mode_change2[0])):
+      #     if(mode_change2[app][i]>10):
+      #       ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
+
+
+  # if dl_slide_change==0:
+  #   ax2.set_xlim([0,150])
+  # else:
+  #   ax2.set_xlim([0,dl_slide_change])
+  ax2.set_xlim([0,150])
+  ax2.set_ylim([0,10])
+
+  ax2.set_xlabel('time')
+  ax2.set_ylabel('Deadline misses')
+
+  st = ['app1','app2','Total misses:'+str(total_dm[-1])]
+  i=0
+  for val in data.keys():
+    # st[i] = data[val]["ApplicationName"] + "\n Mode" + str(data[val]["CurrentMode"]) + "\n Misses:" + str(data[val]["DeadlinesMissed"])
+    st[i] = data[val]["ApplicationName"] + "\n Mode" + str(data[val]["CurrentMode"]) + "\n Misses:" + str(deadline_misses[i][len(deadline_misses[i])-1])
+    i+=1
+  for i in range(0,len(toshow)-1):
+    if(toshow[i]):
+      ax2.text(-23,5+float(i)*2.4,st[i],fontdict=font[i])#,bbox=dict(facecolor='none', edgecolor='blue', pad=10.0))
+  if len(deadline_misses[0])==150 or do_reset:
+    deadline_misses =[]
+    deadline_misses.append([])
+    deadline_misses.append([])
+    deadline_misses.append([])
+    mode_change2 = []
+    mode_change2.append([])
+    mode_change2.append([])    
+    mode_change2.append([])
+    pre_mode2 = []
+    pre_mode2.append(0)
+    pre_mode2.append(0)
+    pre_mode2.append(0)
+    total_dm=[]    
+    xaxis2=[] 
+    if do_reset > 0:
+      do_reset -=1
 
     # global font
     # app=[0,0,0,0]
@@ -424,7 +427,7 @@ check.on_clicked(func)
 
 
     
-# ani2=animation.FuncAnimation(fig, animate2, interval=update_freq)
+ani2=animation.FuncAnimation(fig, animate2, interval=update_freq)
 
 
 # mng = plt.get_current_fig_manager()
