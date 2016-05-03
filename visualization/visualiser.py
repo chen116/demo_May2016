@@ -255,9 +255,9 @@ def func(label):
     elif label == 'show app3':
       toshow[2]=(toshow[2]+1)%2
     elif label == 'show total':
-      toshow[3]=(toshow[3]+1)%2
+      toshow[2]=(toshow[2]+1)%2
     elif label == 'show static':
-      toshow[4]=(toshow[4]+1)%2
+      toshow[3]=(toshow[3]+1)%2
 
 
 check.on_clicked(func)
