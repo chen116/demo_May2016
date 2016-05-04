@@ -151,6 +151,7 @@ def animate(i):
         j_indi_util[i].append(util)
         len_so_far = len(j_indi_util[0])
         
+        
         st[i] = data[val]["ApplicationName"] + "\n mode:" + str(data[val]["CurrentMode"]) + '\n VCPUs Util:'+str(j_indi_util[i][len_so_far-1])
         if(len(j_indi_util[0])==1):
           mode_change[i].append(int(data[val]["CurrentMode"]))
@@ -185,15 +186,25 @@ def animate(i):
         ax1.clear()
     else: 
       ax1.clear()
+
       if(toshow[2]):
-        ax1.plot(xaxis,total_util,'--g',linewidth=line_width)
+        total_util_xaxis = []
+        for xx in xrange(0,len(total_util)):
+          total_util_xaxis.append(xx)
+        ax1.plot(total_util_xaxis,total_util,'--g',linewidth=line_width)
       if(toshow[3]):
-        ax1.plot(xaxis,static_util,'--b',linewidth=line_width)
+        static_util_xaxis = []
+        for xx in xrange(0,len(static_util)):
+          static_util_xaxis.append(xx)
+        ax1.plot(static_util_xaxis,static_util,'--b',linewidth=line_width)
       color = [ 'c','m','g']
 
       for app in range(0,apps_num):
         if(toshow[app]):
-          ax1.plot(xaxis,j_indi_util[app],color[app],linewidth=line_width)
+          j_indi_util_xaxis=[]
+          for xx in xrange(0,len(j_indi_util[app])):
+            j_indi_util_xaxis.append(xx)
+          ax1.plot(j_indi_util_xaxis,j_indi_util[app],color[app],linewidth=line_width)
       
       # ax1.set_legend(['total'])
       ax1.set_xlim([0,150])
@@ -203,6 +214,16 @@ def animate(i):
       ax1.set_ylabel('VCPUS')
       # ax1.legend(['total_util'])#,'0','1','2','3'])
       ax1.text(40, 25, 'total util:', style='italic',bbox={'facecolor':'blue', 'alpha':0.5, 'pad':10})
+
+      # st = ['app1','app2','total_util','static']
+      for k in range(0,len(toshow)):
+        if(toshow[k]):
+          ax1.text(-23,.5+float(k)*0.6,st[k],fontdict=font[k])
+          if(k<=1):
+            for i in range(0,len(mode_change[0])):
+              if(mode_change[k][i]>10):
+                # ax1.text(i,1+float(k)*0.5,str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
+                ax1.text(i+0.2,0.1+float(j_indi_util[k][i]),"mode " +str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
       if len_so_far==150 or do_reset:
         j_indi_util =[]
         j_indi_util.append([])
@@ -221,16 +242,6 @@ def animate(i):
         static_util=[]
         if do_reset > 0:
           do_reset-=1
-      # st = ['app1','app2','total_util','static']
-      for k in range(0,len(toshow)):
-        if(toshow[k]):
-          ax1.text(-23,.5+float(k)*0.6,st[k],fontdict=font[k])
-          if(k<=1):
-            for i in range(0,len(mode_change[0])):
-              if(mode_change[k][i]>10):
-                # ax1.text(i,1+float(k)*0.5,str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
-                ax1.text(i+0.2,0.1+float(j_indi_util[k][i]),"mode " +str(mode_change[k][i]%10)+' to '+ str(mode_change[k][i]/10),fontdict=font[k])
-
 
     apps_num = 0
     xaxis2.append(len(deadline_misses[0]))
@@ -269,7 +280,10 @@ def animate(i):
       return
     ax2.clear()
     if(toshow[2]):
-      ax2.plot(xaxis2,total_dm,'--g',linewidth=line_width)
+      total_dm_xaxis=[]
+      for xx in xrange(0,len(total_dm)):
+        total_dm_xaxis.append(xx)
+      ax2.plot(total_dm_xaxis,total_dm,'--g',linewidth=line_width)
     color = [ 'c','m','g']
     # print "deadline_misses"
     # print deadline_misses
@@ -283,7 +297,10 @@ def animate(i):
     #           ax2.text(i,float(deadline_misses[app][i]),"mode " +str(mode_change2[app][i]%10)+' to '+ str(mode_change2[app][i]/10),fontdict=font[app])
     for app in range(0,apps_num):
       if(toshow[app]):
-        ax2.plot(xaxis2,deadline_misses[app],color[app] ,linewidth=line_width)
+        deadline_misses_xaxis=[]
+        for xx in xrange(0,len(deadline_misses[app])):
+          deadline_misses_xaxis.append(xx)
+        ax2.plot(deadline_misses_xaxis,deadline_misses[app],color[app] ,linewidth=line_width)
         # if(app<=1):
         #   for i in range(0,len(mode_change2[0])):
         #     if(mode_change2[app][i]>10):
